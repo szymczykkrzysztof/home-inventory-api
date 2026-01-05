@@ -1,6 +1,7 @@
-@HomeInventory.API_HostAddress = http://localhost:5103
 
-GET {{HomeInventory.API_HostAddress}}/weatherforecast/
+@HomeInventory = http://localhost:5103
+
+GET {{HomeInventory}}/weatherforecast/
 Accept: application/json
 
 ###
