@@ -1,0 +1,146 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+############################################
+# Operating Systems
+############################################
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+############################################
+# Visual Studio
+############################################
+.vs/
+*.user
+*.userosscache
+*.suo
+*.cache
+*.log
+############################################
+# .NET Build Artifacts (ONLY under /src)
+############################################
+src/**/bin/
+src/**/obj/
+src/**/Debug*/
+src/**/Release*/
+############################################
+# Visual Studio Build Artifacts
+############################################
+[Bb]in/
+[Oo]bj/
+[Dd]ebug*/
+[Rr]elease*/
+x64/
+x86/
+[Aa]ny [Cc]PU/
+
+############################################
+# Rider / JetBrains
+############################################
+.idea/
+.idea/**.*
+*.sln.iml
+*.DotSettings.user
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+
+############################################
+# .NET / ASP.NET Core
+############################################
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Core HTTPS certs
+*.pfx
+*.pem
+*.crt
+*.key
+
+# User Secrets
+secrets.json
+**/secrets.json
+
+############################################
+# Logs
+############################################
+logs/
+*.log
+
+############################################
+# Environment files
+############################################
+.env
+.env.*
+!.env.example
+
+############################################
+# Docker
+############################################
+docker-compose.override.yml
+**/docker-compose.override.yml
+
+############################################
+# NuGet
+############################################
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+**/packages/*
+!**/packages/build/
+!**/packages/repositories.config
+
+############################################
+# Publish / Deployment
+############################################
+publish/
+app.publish/
+
+############################################
+# Test Results
+############################################
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+############################################
+# ASP.NET Scaffolding
+############################################
+ScaffoldingReadMe.txt
+
+############################################
+# Rider / VS Temporary Files
+############################################
+*.tmp
+*.temp
+*.bak
+*.old
+
+############################################
+# Entity Framework
+############################################
+Migrations/*.csproj
+Migrations/*.Designer.cs
+Migrations/*.resx
+
+############################################
+# Swagger / OpenAPI Generated
+############################################
+swagger.json
+swagger.yaml
