@@ -65,8 +65,10 @@ public class House
         {
             throw new DomainException("Cannot move item to the same location.");
         }
+        var item = from.GetItem(itemId);
+        to.EnsureCanAdd(item);
 
-        var item = from.ExtractItem(itemId);
+        from.ExtractItem(itemId);
         to.InsertItem(item);
     }
 
