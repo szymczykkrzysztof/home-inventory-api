@@ -6,7 +6,7 @@ namespace HomeInventory.Domain.Aggregates.House;
 public class House
 {
     public Guid Id { get; private set; }
-    public string Name { get; set; } = null!;
+    public string Name { get; private set; } = null!;
     private readonly List<Location> _locations = [];
     public IReadOnlyCollection<Location> Locations => _locations.AsReadOnly();
 
