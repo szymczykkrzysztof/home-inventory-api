@@ -13,7 +13,6 @@ public class Location
 
     private Location()
     {
-        
     }
 
     private Location(Guid id, Room room, Container? container)
@@ -77,5 +76,13 @@ public class Location
     {
         return _items.SingleOrDefault(x => x.Id == itemId) ??
                throw new DomainException($"Item with id {itemId} not found.");
+    }
+
+    public void EnsureCanAdd(Item item)
+    {
+        if (_items.Any(x => x.Id == item.Id))
+        {
+            throw new DomainException($"Item with id {item.Id} already exists.");
+        }
     }
 }
