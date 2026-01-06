@@ -36,6 +36,10 @@ src/**/bin/
 src/**/obj/
 src/**/Debug*/
 src/**/Release*/
+tests/**/bin/
+tests/**/obj/
+tests/**/Debug*/
+tests/**/Release*/
 ############################################
 # Visual Studio Build Artifacts
 ############################################
