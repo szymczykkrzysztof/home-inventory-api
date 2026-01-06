@@ -12,19 +12,19 @@ public class Item
     {
     }
 
-    internal Item(Guid id, string name, string imageUrl)
+    private Item(Guid id, string? name, string? imageUrl)
     {
         Id = id;
         SetName(name);
         SetImageUrl(imageUrl);
     }
 
-    internal static Item Create(string name, string imageUrl)
+    internal static Item Create(string? name, string? imageUrl)
     {
-        return new Item { Id = Guid.NewGuid(), Name = name, ImageUrl = imageUrl };
+        return new Item(Guid.NewGuid(), name, imageUrl);
     }
 
-    private void SetName(string name)
+    private void SetName(string? name)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
@@ -34,7 +34,7 @@ public class Item
         Name = name.Trim();
     }
 
-    private void SetImageUrl(string imageUrl)
+    private void SetImageUrl(string? imageUrl)
     {
         if (string.IsNullOrWhiteSpace(imageUrl))
         {
@@ -44,12 +44,12 @@ public class Item
         ImageUrl = imageUrl.Trim();
     }
 
-    internal void UpdateName(string name)
+    internal void UpdateName(string? name)
     {
         SetName(name);
     }
 
-    internal void UpdateImageUrl(string imageUrl)
+    internal void UpdateImageUrl(string? imageUrl)
     {
         SetImageUrl(imageUrl);
     }

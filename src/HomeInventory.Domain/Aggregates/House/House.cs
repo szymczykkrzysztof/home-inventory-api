@@ -6,7 +6,7 @@ namespace HomeInventory.Domain.Aggregates.House;
 public class House
 {
     public Guid Id { get; private set; }
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
     private readonly List<Location> _locations = [];
     public IReadOnlyCollection<Location> Locations => _locations.AsReadOnly();
 
@@ -20,15 +20,17 @@ public class House
         Name = name;
     }
 
-    public static House Create(string name)
+    public static House Create(string? name)
     {
         return string.IsNullOrWhiteSpace(name)
             ? throw new DomainException("House name is required.")
             : new House(Guid.NewGuid(), name.Trim());
     }
 
-    public Guid AddLocation(Room room, Container? container)
+    public Guid AddLocation(Room? room, Container? container)
     {
+        if (room is null)
+            throw new DomainException("Room is required");
         EnsureUniqueLocation(room, container, exceptLocationId: null);
         var location = Location.Create(room, container);
         _locations.Add(location);
@@ -59,6 +61,10 @@ public class House
     {
         var from = GetLocation(fromLocationId);
         var to = GetLocation(toLocationId);
+        if (from == to)
+        {
+            throw new DomainException("Cannot move item to the same location.");
+        }
 
         var item = from.ExtractItem(itemId);
         to.InsertItem(item);
