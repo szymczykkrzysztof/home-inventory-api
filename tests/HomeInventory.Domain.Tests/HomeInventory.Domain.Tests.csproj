@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+      <ProjectReference Include="..\..\src\HomeInventory.Application\HomeInventory.Application.csproj"/>
     <ProjectReference Include="..\..\src\HomeInventory.Domain\HomeInventory.Domain.csproj" />
   </ItemGroup>
 
