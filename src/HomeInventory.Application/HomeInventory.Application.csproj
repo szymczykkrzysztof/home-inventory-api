@@ -10,4 +10,12 @@
         <ProjectReference Include="..\HomeInventory.Domain\HomeInventory.Domain.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Houses\Queries\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="14.0.0" />
+    </ItemGroup>
+
 </Project>
