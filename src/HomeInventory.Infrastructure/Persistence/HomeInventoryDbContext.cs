@@ -1,4 +1,5 @@
 using HomeInventory.Domain.Aggregates.House;
+using HomeInventory.Infrastructure.Persistence.ReadModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace HomeInventory.Infrastructure.Persistence;
@@ -10,6 +11,10 @@ public class HomeInventoryDbContext(DbContextOptions<HomeInventoryDbContext> opt
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(HomeInventoryDbContext).Assembly);
+        modelBuilder
+            .Entity<ItemReadModel>()
+            .HasNoKey()
+            .ToView(null); // ← nie tabela, tylko projekcja
         base.OnModelCreating(modelBuilder);
     }
 }

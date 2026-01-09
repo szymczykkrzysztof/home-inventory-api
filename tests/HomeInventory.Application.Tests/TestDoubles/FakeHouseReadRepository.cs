@@ -2,7 +2,7 @@ using HomeInventory.Application.Contracts;
 using HomeInventory.Application.Houses.Queries.GetDetail;
 using ItemDto = HomeInventory.Application.Houses.Queries.GetItems.ItemDto;
 
-namespace HomeInventory.Domain.Tests.TestDoubles;
+namespace HomeInventory.Application.Tests.TestDoubles;
 
 public sealed class FakeHouseReadRepository : IHouseReadRepository
 {

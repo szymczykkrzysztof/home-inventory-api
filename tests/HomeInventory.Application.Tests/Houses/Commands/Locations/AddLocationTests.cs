@@ -1,10 +1,10 @@
 using FluentAssertions;
 using HomeInventory.Application.Houses.Commands.Locations.AddLocation;
+using HomeInventory.Application.Tests.TestDoubles;
 using HomeInventory.Domain.Aggregates.House;
 using HomeInventory.Domain.Exceptions;
-using HomeInventory.Domain.Tests.TestDoubles;
 
-namespace HomeInventory.Domain.Tests.Houses.Commands.Locations;
+namespace HomeInventory.Application.Tests.Houses.Commands.Locations;
 
 public class AddLocationTests
 {

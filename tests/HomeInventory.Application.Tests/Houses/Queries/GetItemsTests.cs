@@ -1,8 +1,8 @@
 using FluentAssertions;
 using HomeInventory.Application.Houses.Queries.GetItems;
-using HomeInventory.Domain.Tests.TestDoubles;
+using HomeInventory.Application.Tests.TestDoubles;
 
-namespace HomeInventory.Domain.Tests.Houses.Queries;
+namespace HomeInventory.Application.Tests.Houses.Queries;
 
 public class GetItemsTests
 {
