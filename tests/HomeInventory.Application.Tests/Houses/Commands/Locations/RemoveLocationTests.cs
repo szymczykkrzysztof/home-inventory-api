@@ -1,11 +1,11 @@
 using FluentAssertions;
 using HomeInventory.Application.Houses.Commands.Locations.RemoveLocation;
+using HomeInventory.Application.Tests.TestDoubles;
 using HomeInventory.Domain.Aggregates.House;
 using HomeInventory.Domain.Exceptions;
-using HomeInventory.Domain.Tests.TestDoubles;
 using HomeInventory.Domain.ValueObjects;
 
-namespace HomeInventory.Domain.Tests.Houses.Commands.Locations;
+namespace HomeInventory.Application.Tests.Houses.Commands.Locations;
 
 public class RemoveLocationTests
 {

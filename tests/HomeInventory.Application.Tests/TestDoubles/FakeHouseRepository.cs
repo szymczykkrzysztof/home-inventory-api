@@ -1,7 +1,7 @@
 using HomeInventory.Application.Contracts;
 using HomeInventory.Domain.Aggregates.House;
 
-namespace HomeInventory.Domain.Tests.TestDoubles;
+namespace HomeInventory.Application.Tests.TestDoubles;
 
 public class FakeHouseRepository : IHouseRepository
 {

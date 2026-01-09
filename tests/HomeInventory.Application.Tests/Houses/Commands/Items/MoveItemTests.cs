@@ -1,10 +1,10 @@
 using FluentAssertions;
 using HomeInventory.Application.Houses.Commands.Items.MoveItem;
+using HomeInventory.Application.Tests.TestDoubles;
 using HomeInventory.Domain.Aggregates.House;
-using HomeInventory.Domain.Tests.TestDoubles;
 using HomeInventory.Domain.ValueObjects;
 
-namespace HomeInventory.Domain.Tests.Houses.Commands.Items;
+namespace HomeInventory.Application.Tests.Houses.Commands.Items;
 
 public class MoveItemTests
 {
