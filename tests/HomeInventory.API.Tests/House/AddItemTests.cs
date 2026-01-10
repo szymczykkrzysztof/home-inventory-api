@@ -7,16 +7,14 @@ using HomeInventory.Application.Houses.Queries.GetDetail;
 
 namespace HomeInventory.API.Tests.House;
 
-public class AddItemTests(HomeInventoryApiFactory factory) : IClassFixture<HomeInventoryApiFactory>
+public class AddItemTests(HomeInventoryApiFactory factory) : BaseClass(factory)
 {
-    private readonly HttpClient _client = factory.CreateClient();
-
     [Fact]
     public async Task AddItemEndpoint_AddsItemToLocation()
     {
-        var registerHouseResponse = await _client.PostAsJsonAsync(
+        var registerHouseResponse = await Client.PostAsJsonAsync(
             "/api/houses",
-            new {name = "Test House"});
+            new { name = "Test House" });
 
         registerHouseResponse.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -27,7 +25,7 @@ public class AddItemTests(HomeInventoryApiFactory factory) : IClassFixture<HomeI
         houseId.Should().NotBeEmpty();
 
 
-        var addLocationResponse = await _client.PostAsJsonAsync(
+        var addLocationResponse = await Client.PostAsJsonAsync(
             $"/api/houses/{houseId}/locations",
             new AddLocationRequest
                 ("Kitchen", "Drawer"));
@@ -40,21 +38,13 @@ public class AddItemTests(HomeInventoryApiFactory factory) : IClassFixture<HomeI
 
         locationId.Should().NotBeEmpty();
 
-        // =====================
-        // ACT – add item
-        // =====================
-
-        var addItemResponse = await _client.PostAsJsonAsync(
+        var addItemResponse = await Client.PostAsJsonAsync(
             $"/api/houses/{houseId}/locations/{locationId}/items",
             new AddItemRequest
             {
                 Name = "Spoon",
                 ImageUrl = "img-spoon"
             });
-
-        // =====================
-        // ASSERT – HTTP
-        // =====================
 
         addItemResponse.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -64,11 +54,7 @@ public class AddItemTests(HomeInventoryApiFactory factory) : IClassFixture<HomeI
 
         itemId.Should().NotBeEmpty();
 
-        // =====================
-        // ASSERT – state via API
-        // =====================
-
-        var houseDetailResponse = await _client.GetAsync(
+        var houseDetailResponse = await Client.GetAsync(
             $"/api/houses/{houseId}");
 
         houseDetailResponse.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -78,7 +64,7 @@ public class AddItemTests(HomeInventoryApiFactory factory) : IClassFixture<HomeI
             .ReadFromJsonAsync<HouseDetailDto>();
 
         house.Should().NotBeNull();
-        house!.Locations.Should().ContainSingle();
+        house.Locations.Should().ContainSingle();
 
         var location = house.Locations.Single();
         location.RoomName.Should().Be("Kitchen");
