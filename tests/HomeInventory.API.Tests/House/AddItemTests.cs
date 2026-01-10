@@ -5,7 +5,7 @@ using HomeInventory.API.Dtos.Houses;
 using HomeInventory.API.Tests.Infrastructure;
 using HomeInventory.Application.Houses.Queries.GetDetail;
 
-namespace HomeInventory.API.Tests.House.Items;
+namespace HomeInventory.API.Tests.House;
 
 public class AddItemTests(HomeInventoryApiFactory factory) : IClassFixture<HomeInventoryApiFactory>
 {
