@@ -12,7 +12,7 @@ public class HouseConfiguration : IEntityTypeConfiguration<House>
 
         builder.HasKey(h => h.Id);
         builder.Property(h => h.Id)
-            .ValueGeneratedOnAdd();
+            .ValueGeneratedNever();
         builder.Property(h => h.Name)
             .IsRequired()
             .HasMaxLength(200);

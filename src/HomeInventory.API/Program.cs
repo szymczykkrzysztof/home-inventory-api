@@ -10,8 +10,6 @@ builder.Configuration.AddEnvironmentVariables();
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructureIfNotTest(builder.Configuration, builder.Environment);
 
@@ -33,14 +31,8 @@ if (!app.Environment.IsEnvironment("Test"))
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Home Inventory API v1");
-        options.RoutePrefix = "swagger"; // /swagger
+        options.RoutePrefix = "swagger";
     });
-}
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
