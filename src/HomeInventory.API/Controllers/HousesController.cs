@@ -20,7 +20,7 @@ namespace HomeInventory.API.Controllers;
 [Route("api/houses")]
 public class HousesController(IMediator mediator) : ControllerBase
 {
-    [HttpGet] // To mapuje się na GET /api/houses
+    [HttpGet]
     public async Task<ActionResult<List<HouseLookupDto>>> GetHouses(
         CancellationToken ct)
     {
@@ -74,7 +74,7 @@ public class HousesController(IMediator mediator) : ControllerBase
         CancellationToken ct)
     {
         var houseId = await mediator.Send(command, ct);
-        return CreatedAtAction(nameof(GetHouseDetail), new {houseId}, houseId);
+        return CreatedAtAction(nameof(GetHouseDetail), new { houseId }, houseId);
     }
 
     [HttpPost("{houseId:guid}/locations")]
@@ -92,7 +92,7 @@ public class HousesController(IMediator mediator) : ControllerBase
 
         return CreatedAtAction(
             nameof(GetHouseDetail),
-            new {houseId},
+            new { houseId },
             locationId);
     }
 
@@ -113,7 +113,7 @@ public class HousesController(IMediator mediator) : ControllerBase
 
         return CreatedAtAction(
             nameof(GetHouseDetail),
-            new {houseId},
+            new { houseId },
             itemId);
     }
 

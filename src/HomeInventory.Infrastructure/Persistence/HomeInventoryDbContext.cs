@@ -15,7 +15,7 @@ public class HomeInventoryDbContext(DbContextOptions<HomeInventoryDbContext> opt
         modelBuilder
             .Entity<ItemReadModel>()
             .HasNoKey()
-            .ToView(null); // ← nie tabela, tylko projekcja
+            .ToView(null); 
         base.OnModelCreating(modelBuilder);
     }
 }

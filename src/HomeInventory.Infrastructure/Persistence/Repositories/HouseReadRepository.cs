@@ -70,7 +70,6 @@ public class HouseReadRepository(HomeInventoryDbContext dbContext) : IHouseReadR
     {
         return await dbContext.Locations
             .AsNoTracking()
-            // Używamy EF.Property, bo HouseId jest polem cienia (Shadow Property) w bazie
             .Where(l => EF.Property<Guid>(l, "HouseId") == houseId)
             .Select(l => new LocationLookupDto(
                 l.Id,
