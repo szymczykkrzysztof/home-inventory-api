@@ -5,9 +5,9 @@ using MediatR;
 namespace HomeInventory.Application.Houses.Commands.Manage.Register;
 
 public class RegisterHouseCommandHandler(IHouseRepository houseRepository)
-    : IRequestHandler<RegisterHouserCommand, Guid>
+    : IRequestHandler<RegisterHouseCommand, Guid>
 {
-    public async Task<Guid> Handle(RegisterHouserCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(RegisterHouseCommand request, CancellationToken cancellationToken)
     {
         var house = House.Create(request.Name);
         await houseRepository.Add(house, cancellationToken);

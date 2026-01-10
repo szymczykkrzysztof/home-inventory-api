@@ -1,8 +1,10 @@
 using HomeInventory.Application.Contracts;
 using HomeInventory.Application.Houses.Queries.GetDetail;
+using HomeInventory.Application.Houses.Queries.GetHouses;
 using HomeInventory.Domain.Aggregates.House;
 using Microsoft.EntityFrameworkCore;
-
+using ItemDto = HomeInventory.Application.Houses.Queries.GetItems.ItemDto;
+using LocationLookupDto = HomeInventory.Application.Houses.Queries.GetLocations.LocationDto;
 
 namespace HomeInventory.Infrastructure.Persistence.Repositories;
 
@@ -11,7 +13,7 @@ public class HouseReadRepository(HomeInventoryDbContext dbContext) : IHouseReadR
     public async Task<HouseDetailDto?> GetHouseDetail(Guid houseId, CancellationToken cancellationToken)
     {
         return await dbContext
-            .Set<Domain.Aggregates.House.House>()
+            .Set<House>()
             .AsNoTracking()
             .Where(h => h.Id == houseId)
             .Select(h => new HouseDetailDto
@@ -23,7 +25,7 @@ public class HouseReadRepository(HomeInventoryDbContext dbContext) : IHouseReadR
                     LocationId = l.Id,
                     RoomName = l.Room.Name,
                     ContainerName = l.Container != null ? l.Container.Name : null,
-                    Items = l.Items.Select(i => new ItemDto
+                    Items = l.Items.Select(i => new Application.Houses.Queries.GetDetail.ItemDto
                     {
                         ItemId = i.Id,
                         Name = i.Name,
@@ -34,7 +36,7 @@ public class HouseReadRepository(HomeInventoryDbContext dbContext) : IHouseReadR
             .SingleOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyList<Application.Houses.Queries.GetItems.ItemDto>> GetItems(Guid houseId, string? searchTerm,
+    public async Task<IReadOnlyList<ItemDto>> GetItems(Guid houseId, string? searchTerm,
         string? roomName, string? containerName,
         CancellationToken cancellationToken)
     {
@@ -43,7 +45,7 @@ public class HouseReadRepository(HomeInventoryDbContext dbContext) : IHouseReadR
             join l in dbContext.Set<Location>() on
                 EF.Property<Guid>(i, "LocationId") equals l.Id
             where EF.Property<Guid>(l, "HouseId") == houseId
-            select new Application.Houses.Queries.GetItems.ItemDto
+            select new ItemDto
             {
                 ItemId = i.Id,
                 Name = i.Name,
@@ -62,5 +64,27 @@ public class HouseReadRepository(HomeInventoryDbContext dbContext) : IHouseReadR
             query = query.Where(x => x.Name.Contains(searchTerm));
 
         return await query.ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<LocationLookupDto>> GetLocations(Guid houseId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Locations
+            .AsNoTracking()
+            // Używamy EF.Property, bo HouseId jest polem cienia (Shadow Property) w bazie
+            .Where(l => EF.Property<Guid>(l, "HouseId") == houseId)
+            .Select(l => new LocationLookupDto(
+                l.Id,
+                l.Room.Name,
+                l.Container != null ? l.Container.Name : null
+            ))
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<HouseLookupDto>> GetHouses(CancellationToken cancellationToken)
+    {
+        return await dbContext.Houses
+            .AsNoTracking()
+            .Select(h => new HouseLookupDto(h.Id, h.Name))
+            .ToListAsync(cancellationToken);
     }
 }

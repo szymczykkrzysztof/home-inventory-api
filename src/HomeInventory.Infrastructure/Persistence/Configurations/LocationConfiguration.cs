@@ -11,7 +11,7 @@ public class LocationConfiguration : IEntityTypeConfiguration<Location>
         builder.ToTable("Locations");
 
         builder.HasKey(l => l.Id);
-        
+        builder.Property(l => l.Id).ValueGeneratedNever();
         builder.OwnsOne(l => l.Room, room =>
         {
             room.Property(r => r.Name)
@@ -26,16 +26,14 @@ public class LocationConfiguration : IEntityTypeConfiguration<Location>
                 .HasColumnName("ContainerName")
                 .HasMaxLength(100);
         });
-        
+
         builder
             .HasMany(l => l.Items)
             .WithOne()
             .HasForeignKey("LocationId")
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
-        
-        builder.Metadata
-            .FindNavigation(nameof(Location.Items))!
-            .SetField("_items");
+        builder.Metadata.FindNavigation(nameof(Location.Items))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }

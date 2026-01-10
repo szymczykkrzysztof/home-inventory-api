@@ -20,4 +20,8 @@ public class FakeHouseRepository : IHouseRepository
     }
 
     public Task SaveChanges(CancellationToken cancellationToken) => Task.CompletedTask;
+
+    public void Update(House house)
+    {
+    }
 }
