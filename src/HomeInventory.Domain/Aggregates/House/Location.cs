@@ -5,7 +5,7 @@ namespace HomeInventory.Domain.Aggregates.House;
 
 public class Location
 {
-    public Guid Id { get; }
+    public Guid Id { get; private set; }
     public Room Room { get; private set; } = null!;
     public Container? Container { get; private set; }
     private readonly List<Item> _items = [];
@@ -15,19 +15,15 @@ public class Location
     {
     }
 
-    private Location(Guid id, Room room, Container? container)
+    internal Location(Guid id, Room room, Container? container)
     {
         Id = id;
         Room = room;
         Container = container;
     }
 
-    public static Location Create(Room room, Container? container)
-    {
-        return room is null
-            ? throw new DomainException("Room is required")
-            : new Location(Guid.NewGuid(), room, container);
-    }
+    internal static Location Create(Room room, Container? container)
+        => new Location(Guid.NewGuid(), room, container);
 
     public void Rename(Room newRoom, Container? newContainer)
     {

@@ -17,6 +17,8 @@ public class AddLocationCommandHandler(IHouseRepository houseRepository) : IRequ
             : Container.Create(request.ContainerName);
         var locationId = house.AddLocation(room, container);
         await houseRepository.SaveChanges(cancellationToken);
+
+
         return locationId;
     }
 }

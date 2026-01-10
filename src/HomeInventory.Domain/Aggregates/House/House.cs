@@ -33,6 +33,7 @@ public class House
             throw new DomainException("Room is required");
         EnsureUniqueLocation(room, container, exceptLocationId: null);
         var location = Location.Create(room, container);
+
         _locations.Add(location);
         return location.Id;
     }
@@ -65,6 +66,7 @@ public class House
         {
             throw new DomainException("Cannot move item to the same location.");
         }
+
         var item = from.GetItem(itemId);
         to.EnsureCanAdd(item);
 

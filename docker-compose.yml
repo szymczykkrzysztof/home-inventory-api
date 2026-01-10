@@ -1,5 +1,6 @@
 services:
   sqlserver:
+    container_name: homeinventory-sqlserver
     image: mcr.microsoft.com/mssql/server:2022-latest
     platform: linux/amd64
     ports:

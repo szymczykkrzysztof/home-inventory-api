@@ -11,7 +11,8 @@ public class HouseConfiguration : IEntityTypeConfiguration<House>
         builder.ToTable("Houses");
 
         builder.HasKey(h => h.Id);
-
+        builder.Property(h => h.Id)
+            .ValueGeneratedOnAdd();
         builder.Property(h => h.Name)
             .IsRequired()
             .HasMaxLength(200);
@@ -22,9 +23,7 @@ public class HouseConfiguration : IEntityTypeConfiguration<House>
             .HasForeignKey("HouseId")
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
-        
-        builder.Metadata
-            .FindNavigation(nameof(House.Locations))!
-            .SetField("_locations");
+        builder.Metadata.FindNavigation(nameof(House.Locations))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }

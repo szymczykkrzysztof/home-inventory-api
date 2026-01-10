@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeInventory.Infrastructure.Migrations
 {
     [DbContext(typeof(HomeInventoryDbContext))]
-    [Migration("20260109121410_InitialSetup")]
-    partial class InitialSetup
+    [Migration("20260110103425_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,6 @@ namespace HomeInventory.Infrastructure.Migrations
             modelBuilder.Entity("HomeInventory.Domain.Aggregates.House.Item", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ImageUrl")
@@ -70,7 +69,6 @@ namespace HomeInventory.Infrastructure.Migrations
             modelBuilder.Entity("HomeInventory.Domain.Aggregates.House.Location", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("HouseId")
@@ -81,6 +79,34 @@ namespace HomeInventory.Infrastructure.Migrations
                     b.HasIndex("HouseId");
 
                     b.ToTable("Locations", (string)null);
+                });
+
+            modelBuilder.Entity("HomeInventory.Infrastructure.Persistence.ReadModels.ItemReadModel", b =>
+                {
+                    b.Property<string>("ContainerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("HouseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable((string)null);
+
+                    b.ToView(null, (string)null);
                 });
 
             modelBuilder.Entity("HomeInventory.Domain.Aggregates.House.Item", b =>

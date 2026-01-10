@@ -1,7 +1,7 @@
 
-@HomeInventory = http://localhost:5103
-
-GET {{HomeInventory}}/weatherforecast/
+@HomeInventory = http://localhost:5103/api
+###
+GET {{HomeInventory}}/houses/694015dd-e3ac-8329-9fe8-9302e162c2d6/items
 Accept: application/json
 
 ###

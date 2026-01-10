@@ -2,7 +2,6 @@ using HomeInventory.Application.Contracts;
 using HomeInventory.Domain.Aggregates.House;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace HomeInventory.Infrastructure.Persistence.Repositories;
 
 public class HouseRepository(HomeInventoryDbContext dbContext) : IHouseRepository
@@ -11,9 +10,9 @@ public class HouseRepository(HomeInventoryDbContext dbContext) : IHouseRepositor
     {
         return await dbContext
             .Set<House>()
-            .Include(h=>h.Locations)
-            .ThenInclude(l=>l.Items)
-            .SingleOrDefaultAsync(h=>h.Id==houseId, cancellationToken);
+            .Include(h => h.Locations)
+            .ThenInclude(l => l.Items)
+            .SingleOrDefaultAsync(h => h.Id == houseId, cancellationToken);
     }
 
     public async Task Add(House house, CancellationToken cancellationToken)
@@ -23,6 +22,11 @@ public class HouseRepository(HomeInventoryDbContext dbContext) : IHouseRepositor
 
     public async Task SaveChanges(CancellationToken cancellationToken)
     {
+        dbContext.UpdateRange(dbContext.ChangeTracker
+            .Entries<House>()
+            .Where(e => e.State == EntityState.Unchanged)
+            .Select(e => e.Entity));
+
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 }
