@@ -67,7 +67,7 @@ public class GetItemsTests : IClassFixture<HomeInventoryApiFactory>
         items.Should().NotBeNull();
         items.Should().HaveCount(2);
 
-        items!.Select(i => i.Name)
+        items.Select(i => i.Name)
             .Should()
             .BeEquivalentTo("Spoon", "Fork");
 
@@ -90,7 +90,7 @@ public class GetItemsTests : IClassFixture<HomeInventoryApiFactory>
         items.Should().NotBeNull();
         items.Should().HaveCount(2);
 
-        items!.All(i => i.ContainerName == "Drawer")
+        items.All(i => i.ContainerName == "Drawer")
             .Should()
             .BeTrue();
     }
@@ -107,7 +107,7 @@ public class GetItemsTests : IClassFixture<HomeInventoryApiFactory>
             .ReadFromJsonAsync<List<ItemDto>>();
 
         items.Should().ContainSingle();
-        items!.Single().Name.Should().Be("Laptop");
+        items.Single().Name.Should().Be("Laptop");
     }
 
     [Fact]
@@ -192,7 +192,7 @@ public class GetItemsTests : IClassFixture<HomeInventoryApiFactory>
             .ReadFromJsonAsync<HouseDetailDto>();
 
         house.Should().NotBeNull();
-        house!.Locations.Should().ContainSingle();
+        house.Locations.Should().ContainSingle();
 
         var location = house.Locations.Single();
         location.RoomName.Should().Be("Kitchen");
