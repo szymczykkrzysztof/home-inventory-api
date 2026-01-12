@@ -28,7 +28,7 @@ public class HousesController(IMediator mediator) : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("{houseId}")]
+    [HttpGet("{houseId:guid}")]
     public async Task<ActionResult<HouseDetailDto>> GetHouseDetail(
         Guid houseId,
         CancellationToken cancellationToken)
@@ -96,7 +96,7 @@ public class HousesController(IMediator mediator) : ControllerBase
             locationId);
     }
 
-    [HttpPost("{houseId}/locations/{locationId}/items")]
+    [HttpPost("{houseId:guid}/locations/{locationId:guid}/items")]
     public async Task<ActionResult<Guid>> AddItem(
         Guid houseId,
         Guid locationId,
