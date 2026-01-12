@@ -9,7 +9,7 @@ public class AddItemCommandHandler(IHouseRepository houseRepository) : IRequestH
     public async Task<Guid> Handle(AddItemCommand request, CancellationToken cancellationToken)
     {
         var house = await houseRepository.Get(request.HouseId, cancellationToken) ??
-                    throw new DomainException($"House with id:{request.HouseId} not found.");
+                    throw new NotFoundException("House",request.HouseId);
         var location = house.GetLocation(request.LocationId);
         var itemId = location.AddItem(request.Name, request.ImageUrl);
         await houseRepository.SaveChanges(cancellationToken);

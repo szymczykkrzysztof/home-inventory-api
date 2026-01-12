@@ -29,14 +29,14 @@ public class ItemTests
     public void CannotCreateItemWithEmptyNameAndEmptyImageUrl()
     {
         var act = () => _house.GetLocation(_locationId).AddItem("", "");
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<BusinessRuleValidationException>();
     }
 
     [Fact]
     public void CannotCreateItemWithNullNameAndNullImageUrl()
     {
         var act = () => _house.GetLocation(_locationId).AddItem(null, null);
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<BusinessRuleValidationException>();
     }
 
     [Fact]
@@ -74,7 +74,7 @@ public class ItemTests
     {
         var act = () =>
             _house.GetLocation(_locationId).UpdateItem(Guid.NewGuid(), "Test Item", "https://example.com/test.jpg");
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<NotFoundException>();
     }
 
     [Fact]
@@ -82,7 +82,7 @@ public class ItemTests
     {
         var itemId = _house.GetLocation(_locationId).AddItem("Test Item", "https://example.com/test.jpg");
         var act = () => _house.GetLocation(_locationId).UpdateItem(itemId, "", "");
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<BusinessRuleValidationException>();
     }
 
     [Fact]
@@ -90,6 +90,6 @@ public class ItemTests
     {
         var itemId = _house.GetLocation(_locationId).AddItem("Test Item", "https://example.com/test.jpg");
         var act = () => _house.GetLocation(_locationId).UpdateItem(itemId, null, null);
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<BusinessRuleValidationException>();
     }
 }

@@ -10,7 +10,7 @@ public class RenameLocationCommandHandler(IHouseRepository houseRepository) : IR
     public async Task Handle(RenameLocationCommand request, CancellationToken cancellationToken)
     {
         var house = await houseRepository.Get(request.HouseId, cancellationToken) ??
-                    throw new DomainException($"House with id {request.HouseId} not found.");
+                    throw new NotFoundException("House",request.HouseId);
         var newRoom = Room.Create(request.RoomName);
         var newContainer = string.IsNullOrWhiteSpace(request.ContainerName)
             ? null

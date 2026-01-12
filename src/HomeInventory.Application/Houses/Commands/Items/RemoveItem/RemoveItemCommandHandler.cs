@@ -9,7 +9,7 @@ public class RemoveItemCommandHandler(IHouseRepository houseRepository) : IReque
     public async Task Handle(RemoveItemCommand request, CancellationToken cancellationToken)
     {
         var house = await houseRepository.Get(request.HouseId, cancellationToken) ??
-                    throw new DomainException($"House with id:{request.HouseId} not found.");
+                    throw new NotFoundException("House",request.HouseId);
         var location = house.GetLocation(request.LocationId);
         location.RemoveItem(request.ItemId);
         await houseRepository.SaveChanges(cancellationToken);

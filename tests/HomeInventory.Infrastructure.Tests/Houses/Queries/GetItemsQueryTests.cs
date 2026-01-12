@@ -29,16 +29,14 @@ public class GetItemsQueryTests
         await context.SaveChangesAsync();
 
         var repository = new HouseReadRepository(context);
-
-        // Act
+        
         var result = await repository.GetItems(
             house.Id,
             searchTerm: null,
             roomName: null,
             containerName: null,
             CancellationToken.None);
-
-        // Assert
+        
         result.Should().HaveCount(2);
         result.Select(x => x.Name)
             .Should().Contain(new[] {"Laptop", "Spoon"});
@@ -76,16 +74,14 @@ public class GetItemsQueryTests
         await context.SaveChangesAsync();
 
         var repository = new HouseReadRepository(context);
-
-        // Act
+        
         var result = await repository.GetItems(
             house.Id,
             searchTerm: "Spoon",
             roomName: "Kitchen",
             containerName: "Shelf",
             CancellationToken.None);
-
-        // Assert
+        
         result.Should().HaveCount(1);
 
         var item = result.Single();
