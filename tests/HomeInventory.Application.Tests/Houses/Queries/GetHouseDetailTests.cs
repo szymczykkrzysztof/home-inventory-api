@@ -1,6 +1,7 @@
 using FluentAssertions;
 using HomeInventory.Application.Houses.Queries.GetDetail;
 using HomeInventory.Application.Tests.TestDoubles;
+using HomeInventory.Domain.Exceptions;
 
 namespace HomeInventory.Application.Tests.Houses.Queries;
 
@@ -35,6 +36,6 @@ public class GetHouseDetailTests
         var query = new GetHouseDetailQuery(Guid.NewGuid());
 
         var act = async () => await handler.Handle(query, default);
-        await act.Should().ThrowAsync<InvalidOperationException>();
+        await act.Should().ThrowAsync<NotFoundException>();
     }
 }

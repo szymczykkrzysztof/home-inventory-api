@@ -41,7 +41,7 @@ public class House
     public Location GetLocation(Guid locationId)
     {
         return _locations.SingleOrDefault(x => x.Id == locationId) ??
-               throw new NotFoundException("Location",locationId);
+               throw new NotFoundException("Location", locationId);
     }
 
     public void UpdateLocation(Guid locationId, Room newRoom, Container? newContainer)
@@ -80,7 +80,7 @@ public class House
             (exceptLocationId == null || l.Id != exceptLocationId.Value) &&
             l.Room.Name.Equals(room.Name, StringComparison.OrdinalIgnoreCase) &&
             ContainerEquals(l.Container, container));
-        if (duplicate) throw new AlreadyExistsException("Location",$"{room.Name} > {container?.Name}");
+        if (duplicate) throw new AlreadyExistsException("Location", $"{room.Name} > {container?.Name}");
     }
 
     private static bool ContainerEquals(Container? a, Container? b)

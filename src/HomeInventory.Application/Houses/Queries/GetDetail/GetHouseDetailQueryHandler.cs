@@ -1,4 +1,5 @@
 using HomeInventory.Application.Contracts;
+using HomeInventory.Domain.Exceptions;
 using MediatR;
 
 namespace HomeInventory.Application.Houses.Queries.GetDetail;
@@ -11,10 +12,6 @@ public class GetHouseDetailQueryHandler(IHouseReadRepository houseReadRepository
         var house = await houseReadRepository.GetHouseDetail(
             request.HouseId,
             cancellationToken);
-        if (house is null)
-            throw new InvalidOperationException(
-                $"House with id {request.HouseId} not found.");
-
-        return house;
+        return house ?? throw new NotFoundException("House", request.HouseId);
     }
 }
