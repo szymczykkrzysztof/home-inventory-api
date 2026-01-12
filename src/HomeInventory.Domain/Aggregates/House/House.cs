@@ -23,14 +23,14 @@ public class House
     public static House Create(string? name)
     {
         return string.IsNullOrWhiteSpace(name)
-            ? throw new DomainException("House name is required.")
+            ? throw new BusinessRuleValidationException("House name is required.")
             : new House(Guid.NewGuid(), name.Trim());
     }
 
     public Guid AddLocation(Room? room, Container? container)
     {
         if (room is null)
-            throw new DomainException("Room is required");
+            throw new BusinessRuleValidationException("Room is required");
         EnsureUniqueLocation(room, container, exceptLocationId: null);
         var location = Location.Create(room, container);
 
@@ -41,7 +41,7 @@ public class House
     public Location GetLocation(Guid locationId)
     {
         return _locations.SingleOrDefault(x => x.Id == locationId) ??
-               throw new DomainException($"Location with id {locationId} not found.");
+               throw new NotFoundException("Location",locationId);
     }
 
     public void UpdateLocation(Guid locationId, Room newRoom, Container? newContainer)
@@ -54,7 +54,7 @@ public class House
     public void RemoveLocation(Guid locationId)
     {
         var location = GetLocation(locationId);
-        if (location.Items.Any()) throw new DomainException("Cannot remove location with items.");
+        if (location.Items.Any()) throw new BusinessRuleValidationException("Cannot remove location with items.");
         _locations.Remove(location);
     }
 
@@ -64,7 +64,7 @@ public class House
         var to = GetLocation(toLocationId);
         if (from == to)
         {
-            throw new DomainException("Cannot move item to the same location.");
+            throw new BusinessRuleValidationException("Cannot move item to the same location.");
         }
 
         var item = from.GetItem(itemId);
@@ -80,7 +80,7 @@ public class House
             (exceptLocationId == null || l.Id != exceptLocationId.Value) &&
             l.Room.Name.Equals(room.Name, StringComparison.OrdinalIgnoreCase) &&
             ContainerEquals(l.Container, container));
-        if (duplicate) throw new DomainException("Location already exists in this house (Room + Container).");
+        if (duplicate) throw new AlreadyExistsException("Location",$"{room.Name} > {container?.Name}");
     }
 
     private static bool ContainerEquals(Container? a, Container? b)

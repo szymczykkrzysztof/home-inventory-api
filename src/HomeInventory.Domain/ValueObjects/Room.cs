@@ -9,6 +9,8 @@ public sealed record Room
 
     public static Room Create(string name)
     {
-        return string.IsNullOrWhiteSpace(name) ? throw new DomainException("Room name is required.") : new Room(name.Trim());
+        return string.IsNullOrWhiteSpace(name)
+            ? throw new BusinessRuleValidationException("Room name is required.")
+            : new Room(name.Trim());
     }
 }

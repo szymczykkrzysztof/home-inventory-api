@@ -1,4 +1,5 @@
 using DotNetEnv;
+using HomeInventory.API.Middlewares;
 using HomeInventory.Application.Extensions;
 using HomeInventory.Infrastructure.Extensions;
 using Microsoft.OpenApi;
@@ -24,6 +25,7 @@ builder.Services.AddSwaggerGen(options =>
         Description = "REST API for managing home inventory (DDD + CQRS)"
     });
 });
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
 var app = builder.Build();
 if (!app.Environment.IsEnvironment("Test"))
 {
@@ -34,7 +36,7 @@ if (!app.Environment.IsEnvironment("Test"))
         options.RoutePrefix = "swagger";
     });
 }
-
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

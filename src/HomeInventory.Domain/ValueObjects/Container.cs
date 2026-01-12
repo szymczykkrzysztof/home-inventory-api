@@ -10,7 +10,7 @@ public sealed record Container
     public static Container Create(string name)
     {
         return string.IsNullOrWhiteSpace(name)
-            ? throw new DomainException("Container name is required")
+            ? throw new BusinessRuleValidationException("Container name is required")
             : new Container(name.Trim());
     }
 };

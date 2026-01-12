@@ -26,24 +26,24 @@ public class HouseTests
     public void CannotCreateHouseWithNullName()
     {
         var act = () => House.Create(null);
-        act.Should().Throw<DomainException>();
-        act.Should().Throw<DomainException>("House name is required.");
+        act.Should().Throw<BusinessRuleValidationException>();
+        act.Should().Throw<BusinessRuleValidationException>("House name is required.");
     }
 
     [Fact]
     public void CannotCreateHouseWithWhiteSpaceName()
     {
         Action act = () => House.Create(" ");
-        act.Should().Throw<DomainException>();
-        act.Should().Throw<DomainException>("House name is required.");
+        act.Should().Throw<BusinessRuleValidationException>();
+        act.Should().Throw<BusinessRuleValidationException>("House name is required.");
     }
 
     [Fact]
     public void CannotCreateHouseWithStringEmptyName()
     {
         Action act = () => House.Create(string.Empty);
-        act.Should().Throw<DomainException>();
-        act.Should().Throw<DomainException>("House name is required.");
+        act.Should().Throw<BusinessRuleValidationException>();
+        act.Should().Throw<BusinessRuleValidationException>("House name is required.");
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class HouseTests
     {
         var house = House.Create("Test House");
         var act = () => house.AddLocation(null, null);
-        act.Should().Throw<DomainException>("Room is required");
+        act.Should().Throw<BusinessRuleValidationException>("Room is required");
     }
 
     [Fact]
@@ -79,8 +79,8 @@ public class HouseTests
         house.AddLocation(Room.Create("Living Room"), null);
 
         Action act = () => house.AddLocation(Room.Create("Living Room"), null);
-        act.Should().Throw<DomainException>();
-        act.Should().Throw<DomainException>("Location already exists in this house (Room + Container).");
+        act.Should().Throw<AlreadyExistsException>();
+        act.Should().Throw<AlreadyExistsException>("Location already exists in this house (Room + Container).");
     }
 
     [Fact]
@@ -89,8 +89,8 @@ public class HouseTests
         var house = House.Create("Test House");
         house.AddLocation(Room.Create("Living Room"), Container.Create("Drawer"));
         var act = () => house.AddLocation(Room.Create("Living Room"), Container.Create("Drawer"));
-        act.Should().Throw<DomainException>();
-        act.Should().Throw<DomainException>("Location already exists in this house (Room + Container).");
+        act.Should().Throw<AlreadyExistsException>();
+        act.Should().Throw<AlreadyExistsException>("Location already exists in this house (Room + Container).");
     }
 
     [Fact]
@@ -118,8 +118,8 @@ public class HouseTests
     {
         var house = House.Create("Test House");
         var act = () => house.GetLocation(Guid.NewGuid());
-        act.Should().Throw<DomainException>();
-        act.Should().Throw<DomainException>("Location not found.");
+        act.Should().Throw<NotFoundException>();
+        act.Should().Throw<NotFoundException>("Location not found.");
     }
 
     [Fact]
@@ -161,7 +161,7 @@ public class HouseTests
         house.AddLocation(Room.Create("Kitchen"), null);
 
         var act = () => house.UpdateLocation(locationId, Room.Create("Kitchen"), null);
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<AlreadyExistsException>();
     }
 
     [Fact]
@@ -170,7 +170,7 @@ public class HouseTests
         var house = House.Create("Test House");
         var locationId = house.AddLocation(Room.Create("Living Room"), null);
         var act = () => house.UpdateLocation(locationId, Room.Create(""), null);
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<BusinessRuleValidationException>();
     }
 
     [Fact]
@@ -190,7 +190,7 @@ public class HouseTests
         house.GetLocation(locationId).AddItem("Test Item", "https://example.com/test.jpg");
 
         var act = () => house.RemoveLocation(locationId);
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<BusinessRuleValidationException>();
     }
 
     [Fact]
@@ -198,7 +198,7 @@ public class HouseTests
     {
         var house = House.Create("Test House");
         var act = () => house.RemoveLocation(Guid.NewGuid());
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<NotFoundException>();
     }
 
     [Fact]
@@ -253,6 +253,6 @@ public class HouseTests
         house.AddLocation(Room.Create("Kitchen"), null);
         var itemId = house.GetLocation(locationId1).AddItem("Test Item", "https://example.com/test.jpg");
         var act = () => house.MoveItem(itemId, locationId1, Guid.NewGuid());
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<NotFoundException>();
     }
 }

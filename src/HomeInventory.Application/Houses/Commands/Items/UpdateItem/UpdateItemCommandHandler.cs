@@ -9,7 +9,7 @@ public class UpdateItemCommandHandler(IHouseRepository houseRepository) : IReque
     public async Task Handle(UpdateItemCommand request, CancellationToken cancellationToken)
     {
         var house = await houseRepository.Get(request.HouseId, cancellationToken)
-                    ?? throw new DomainException($"House with id {request.HouseId} not found.");
+                    ?? throw new NotFoundException("House",request.HouseId);
         var location = house.GetLocation(request.LocationId);
         location.UpdateItem(request.ItemId, request.Name, request.ImageUrl);
         await houseRepository.SaveChanges(cancellationToken);

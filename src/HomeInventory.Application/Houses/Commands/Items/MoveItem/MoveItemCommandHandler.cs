@@ -9,7 +9,7 @@ public class MoveItemCommandHandler(IHouseRepository houseRepository) : IRequest
     public async Task Handle(MoveItemCommand request, CancellationToken cancellationToken)
     {
         var house = await houseRepository.Get(request.HouseId, cancellationToken)
-                    ?? throw new DomainException($"House with id {request.HouseId} not found.");
+                    ?? throw new NotFoundException("House",request.HouseId);
         house.MoveItem(request.ItemId, request.FromLocationId, request.ToLocationId);
         await houseRepository.SaveChanges(cancellationToken);
     }

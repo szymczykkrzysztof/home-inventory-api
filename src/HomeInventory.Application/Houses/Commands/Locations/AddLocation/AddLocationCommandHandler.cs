@@ -10,7 +10,7 @@ public class AddLocationCommandHandler(IHouseRepository houseRepository) : IRequ
     public async Task<Guid> Handle(AddLocationCommand request, CancellationToken cancellationToken)
     {
         var house = await houseRepository.Get(request.HouseId, cancellationToken) ??
-                    throw new DomainException($"House with id:{request.HouseId} not found.");
+                    throw new NotFoundException("House",request.HouseId);
         var room = Room.Create(request.RoomName);
         var container = string.IsNullOrWhiteSpace(request.ContainerName)
             ? null

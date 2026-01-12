@@ -27,14 +27,14 @@ public class LocationTests
     public void CannotAddItemWithEmptyNameAndEmptyImageUrl()
     {
         var act = () => _house.GetLocation(_locationId).AddItem("", "");
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<BusinessRuleValidationException>();
     }
 
     [Fact]
     public void CannotAddItemWithNullNameAndNullImageUrl()
     {
         var act = () => _house.GetLocation(_locationId).AddItem(null, null);
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<BusinessRuleValidationException>();
     }
 
     [Fact]
@@ -50,7 +50,7 @@ public class LocationTests
     {
         var itemId = _house.GetLocation(_locationId).AddItem("Test Item", "https://example.com/test.jpg");
         var act = () => _house.GetLocation(_locationId).UpdateItem(itemId, "", "");
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<BusinessRuleValidationException>();
     }
 
     [Fact]
@@ -58,7 +58,7 @@ public class LocationTests
     {
         var act = () =>
             _house.GetLocation(_locationId).UpdateItem(Guid.NewGuid(), "Test Item", "https://example.com/test.jpg");
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<NotFoundException>();
     }
 
     [Fact]
@@ -73,7 +73,7 @@ public class LocationTests
     public void CannotRemoveNonExistingItem()
     {
         var act = () => _house.GetLocation(_locationId).RemoveItem(Guid.NewGuid());
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<NotFoundException>();
     }
 
     [Fact]
@@ -89,14 +89,14 @@ public class LocationTests
     public void CannotExtractNonExistingItem()
     {
         var act = () => _house.GetLocation(_locationId).ExtractItem(Guid.NewGuid());
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<NotFoundException>();
     }
 
     [Fact]
     public void CannotExtractItemFromNonExistingLocation()
     {
         var act = () => _house.GetLocation(Guid.NewGuid()).ExtractItem(Guid.NewGuid());
-        act.Should().Throw<DomainException>();
+        act.Should().Throw<NotFoundException>();
     }
 
     [Fact]

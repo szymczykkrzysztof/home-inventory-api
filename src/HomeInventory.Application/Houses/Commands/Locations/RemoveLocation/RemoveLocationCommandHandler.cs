@@ -10,7 +10,7 @@ public sealed class RemoveLocationCommandHandler(IHouseRepository houseRepositor
     public async Task Handle(RemoveLocationCommand request, CancellationToken cancellationToken)
     {
         var house = await houseRepository.Get(request.HouseId, cancellationToken) ??
-                    throw new DomainException($"House with id:{request.HouseId} not found.");
+                    throw new NotFoundException("House",request.HouseId);
         house.RemoveLocation(request.LocationId);
         await houseRepository.SaveChanges(cancellationToken);
     }

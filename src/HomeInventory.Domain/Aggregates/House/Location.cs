@@ -27,7 +27,7 @@ public class Location
 
     public void Rename(Room newRoom, Container? newContainer)
     {
-        Room = newRoom ?? throw new DomainException();
+        Room = newRoom ?? throw new BusinessRuleValidationException("New room details cannot be null.");
         Container = newContainer;
     }
 
@@ -62,7 +62,7 @@ public class Location
     {
         if (_items.Any(x => x.Id == item.Id))
         {
-            throw new DomainException($"Item with id {item.Id} already exists.");
+            throw new AlreadyExistsException("Item", item.Id.ToString());
         }
 
         _items.Add(item);
@@ -71,14 +71,14 @@ public class Location
     public Item GetItem(Guid itemId)
     {
         return _items.SingleOrDefault(x => x.Id == itemId) ??
-               throw new DomainException($"Item with id {itemId} not found.");
+               throw new NotFoundException($"Item", itemId);
     }
 
     public void EnsureCanAdd(Item item)
     {
         if (_items.Any(x => x.Id == item.Id))
         {
-            throw new DomainException($"Item with id {item.Id} already exists.");
+            throw new AlreadyExistsException("Item", item.Id);
         }
     }
 }

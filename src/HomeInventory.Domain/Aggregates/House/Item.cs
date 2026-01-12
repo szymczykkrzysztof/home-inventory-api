@@ -28,7 +28,7 @@ public class Item
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            throw new DomainException("Item name is required.");
+            throw new BusinessRuleValidationException("Item name is required.");
         }
 
         Name = name.Trim();
@@ -38,7 +38,7 @@ public class Item
     {
         if (string.IsNullOrWhiteSpace(imageUrl))
         {
-            throw new DomainException("ImageUrl is required.");
+            throw new BusinessRuleValidationException("ImageUrl is required.");
         }
 
         ImageUrl = imageUrl.Trim();
