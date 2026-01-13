@@ -11,16 +11,20 @@ using HomeInventory.Application.Houses.Queries.GetDetail;
 using HomeInventory.Application.Houses.Queries.GetHouses;
 using HomeInventory.Application.Houses.Queries.GetItems;
 using HomeInventory.Application.Houses.Queries.GetLocations;
+using HomeInventory.Infrastructure.Authorization.Entity;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomeInventory.API.Controllers;
 
 [ApiController]
 [Route("api/houses")]
+[Authorize]
 public class HousesController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
+    [Authorize(Roles = UserRoles.Admin)]
     public async Task<ActionResult<List<HouseLookupDto>>> GetHouses(
         CancellationToken ct)
     {
@@ -74,7 +78,7 @@ public class HousesController(IMediator mediator) : ControllerBase
         CancellationToken ct)
     {
         var houseId = await mediator.Send(command, ct);
-        return CreatedAtAction(nameof(GetHouseDetail), new { houseId }, houseId);
+        return CreatedAtAction(nameof(GetHouseDetail), new {houseId}, houseId);
     }
 
     [HttpPost("{houseId:guid}/locations")]
@@ -92,7 +96,7 @@ public class HousesController(IMediator mediator) : ControllerBase
 
         return CreatedAtAction(
             nameof(GetHouseDetail),
-            new { houseId },
+            new {houseId},
             locationId);
     }
 
@@ -113,7 +117,7 @@ public class HousesController(IMediator mediator) : ControllerBase
 
         return CreatedAtAction(
             nameof(GetHouseDetail),
-            new { houseId },
+            new {houseId},
             itemId);
     }
 
