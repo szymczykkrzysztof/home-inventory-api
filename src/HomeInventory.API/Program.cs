@@ -1,32 +1,22 @@
 using DotNetEnv;
+using HomeInventory.API.Extensions;
 using HomeInventory.API.Middlewares;
 using HomeInventory.Application.Extensions;
 using HomeInventory.Infrastructure.Extensions;
-using Microsoft.OpenApi;
+using HomeInventory.Infrastructure.Seeders;
 
 Env.Load();
 Env.TraversePath().Load();
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
-// Add services to the container.
 
-builder.Services.AddControllers();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructureIfNotTest(builder.Configuration, builder.Environment);
-
-// Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "Home Inventory API",
-        Version = "v1",
-        Description = "REST API for managing home inventory (DDD + CQRS)"
-    });
-});
-builder.Services.AddScoped<ErrorHandlingMiddleware>();
+builder.AddPresentation();
 var app = builder.Build();
+var scope = app.Services.CreateScope();
+var seeder = scope.ServiceProvider.GetRequiredService<IHomeInventorySeeder>();
+await seeder.SeedRolesAsync(scope.ServiceProvider);
 if (!app.Environment.IsEnvironment("Test"))
 {
     app.UseSwagger();
@@ -36,6 +26,7 @@ if (!app.Environment.IsEnvironment("Test"))
         options.RoutePrefix = "swagger";
     });
 }
+
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
 
